@@ -7,7 +7,10 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.stage.Stage
 import javafx.scene.input.KeyCode
+import javafx.scene.layout.Border
 import javafx.scene.text.TextAlignment
+import java.awt.Desktop
+import java.net.URI
 
 // Визуализация стрелочных часов (системное время/настройка времени)
 class Clock : Application() {
@@ -60,7 +63,7 @@ class Clock : Application() {
 
         // создание главных Панели и Сцены
         val pane = Pane()
-        val scene = Scene(pane, 480.0,480.0)
+        val scene = Scene(pane)
 
         // добавление элементов на сцену и показ
         pane.children.add(controller.image)
@@ -76,7 +79,7 @@ class Clock : Application() {
 
         // еще одна панель и сцена для вывода информации
         val paneInfo = Pane()
-        val sceneInfo = Scene(paneInfo, 480.0,480.0)
+        val sceneInfo = Scene(paneInfo, scene.width,scene.height)
 
         // надпись с информацией 1
         controller.labelInfo1.layoutX = 70.0
@@ -94,12 +97,20 @@ class Clock : Application() {
         controller.labelInfo2.maxWidth = 375.0
         controller.labelInfo2.textAlignment = TextAlignment.CENTER
 
+        // ссылка на github
+        controller.hyperlink.layoutX = 170.0
+        controller.hyperlink.layoutY = 135.0
+        controller.hyperlink.style = "-fx-text-fill:black;"
+        controller.hyperlink.isUnderline = true
+        controller.hyperlink.border = Border.EMPTY
+
         // кнопка "Back"
         controller.buttonBack.layoutX = 420.0
         controller.buttonBack.layoutY = 440.0
 
         paneInfo.children.add(controller.labelInfo1)
         paneInfo.children.add(controller.labelInfo2)
+        paneInfo.children.add(controller.hyperlink)
         paneInfo.children.add(controller.buttonBack)
 
 
@@ -150,6 +161,11 @@ class Clock : Application() {
 
         // закрыть вторую сцену
         controller.buttonBack.setOnMouseClicked { stage.scene = scene }
+
+        // открыть github
+        controller.hyperlink.setOnMouseClicked {
+                Desktop.getDesktop().browse(URI("https://github.com/MickeyMouseMouse/Clock"))
+        }
     }
 
     companion object {
