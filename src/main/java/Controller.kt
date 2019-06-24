@@ -26,14 +26,14 @@ class Controller {
     // кнопка "Info"
     val buttonInfo = Button("Info")
 
-    // кнопка "Close"
+    // кнопка "Back"
     val buttonBack = Button("Back")
 
     // надпись с информацией 1
-    val labelInfo1 = Label("Application \"Clock\" by Andrew Jeus Version 1.0 (20 June 2019)")
+    val labelInfo1 = Label("Application \"Clock\" by Andrew Jeus Version 1.0 (24 June 2019)")
 
     // надпись с информацией 2
-    val labelInfo2 = Label("You can adjust the time manually: press H to adjust the number of hours; press M to adjust the number of minutes; press R to see the real time.")
+    val labelInfo2 = Label("You can adjust the time manually: press (Shift +) H to adjust the number of hours; press (Shift +) M to adjust the number of minutes; press R to see the real time.")
 
     // надпись, указывающая на то, что показывается установленное пользователем время
     val labelUserTime = Label("User Time")
@@ -41,16 +41,12 @@ class Controller {
     // ссылка на github
     var hyperlink = Hyperlink("View code in GitHub")
 
-    // true - показывать реальное время
-    // false - показывать пользовательское время
-    var fl = true
-
     // время, которое нужно показать стрелками
     var hours = 0
     var minutes = 0
 
     fun update() {
-        if (fl) {
+        if (!labelUserTime.isVisible) {
             hours = LocalDateTime.now()
                     .format(DateTimeFormatter.ofPattern("hh")).toInt() % 12
             minutes = LocalDateTime.now()

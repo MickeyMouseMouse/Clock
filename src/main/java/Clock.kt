@@ -121,34 +121,43 @@ class Clock : Application() {
             }
         }.start()
 
-        // события на нажатия кнопок клавиатуры (H, M, R)
+        // события на нажатия кнопок клавиатуры ((Shift) + H, M, R)
         scene.setOnKeyPressed {
             when (it.code) {
                 // показать реальное время
                 KeyCode.R -> {
                     controller.labelUserTime.isVisible = false
-                    controller.fl = true
                 }
 
-                // плюс один час
+                // плюс/минус один час
                 KeyCode.H -> {
                     controller.labelUserTime.isVisible = true
-                    controller.fl = false
 
-                    if (++controller.hours == 12) {
-                        controller.hours = 0
+                    if (it.isShiftDown) {
+                        if (--controller.hours == -1)
+                            controller.hours = 11
+                    } else {
+                        if (++controller.hours == 12)
+                            controller.hours = 0
                     }
                 }
 
-                // плюс одна минута
+                // плюс/минус одна минута
                 KeyCode.M -> {
                     controller.labelUserTime.isVisible = true
-                    controller.fl = false
 
-                    if (++controller.minutes == 60) {
-                        controller.minutes = 0
-                        if (++controller.hours == 12)
-                            controller.hours = 0
+                    if (it.isShiftDown) {
+                        if (--controller.minutes == -1) {
+                            controller.minutes = 59
+                            if (--controller.hours == -1)
+                                controller.hours = 11
+                        }
+                    } else {
+                        if (++controller.minutes == 60) {
+                            controller.minutes = 0
+                            if (++controller.hours == 12)
+                                controller.hours = 0
+                        }
                     }
                 }
 
